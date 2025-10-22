@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Interest Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Load Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Load Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app" style="margin: 40px auto; max-width: 400px;">
+        <h3 class="text-center mb-4">Simple Interest Calculator</h3>
+
+        <label><b>Enter Principal:</b></label>
+        <input type="number" class="form-control" v-model.number="principal"><br>
+
+        <label><b>Enter Rate (% per year):</b></label>
+        <input type="number" class="form-control" v-model.number="rate"><br>
+
+        <label><b>Enter Time (years):</b></label>
+        <input type="number" class="form-control" v-model.number="time"><br>
+
+        <button class="btn btn-primary w-100" @click="calculateInterest">Calculate Interest</button>
+
+        <!-- Results under the Calculate Interest button -->
+        <div v-if="interest !== null" class="mt-3 p-3 border rounded bg-light">
+            <p class="mb-1"><b>Interest:</b> ${{ interest.toLocaleString() }}</p>
+            <p class="mb-0"><b>Total Amount (Principal + Interest):</b> ${{ total.toLocaleString() }}</p>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    principal: null,
+                    rate: null,
+                    time: null,
+                    interest: null,
+                    total: null
+                }
+            },
+            methods: {
+                calculateInterest() {
+                    if (this.principal && this.rate && this.time) {
+                        const r = this.rate / 100; // convert % to decimal
+                        this.interest = this.principal * r * this.time;
+                        this.total = this.principal + this.interest;
+                    } else {
+                        this.interest = 0;
+                        this.total = 0;
+                    }
+                }
+            }
+        }).mount("#app");
+    </script>
+</body>
+</html>
